@@ -1,0 +1,11 @@
+[tool.black]
+force-exclude = '''
+(
+  .*_rc.py
+  | .*_ui.py
+)
+'''
+
+[tool.isort]
+profile = "black"
+extend_skip_glob = ["*_rc.py", "*_ui.py"]

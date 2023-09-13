@@ -19,59 +19,10 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabManage">
+     <widget class="ProjectEntry_Manage" name="tabManage">
       <attribute name="title">
        <string>Manage</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>Extract</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="projectNameLabel">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="projectDescriptionLabel">
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
      </widget>
      <widget class="QWidget" name="tabClassify">
       <attribute name="title">
@@ -109,6 +60,12 @@
    <class>SamplesListWidget</class>
    <extends>QListWidget</extends>
    <header>ui.components.samplesListWidget</header>
+  </customwidget>
+  <customwidget>
+   <class>ProjectEntry_Manage</class>
+   <extends>QWidget</extends>
+   <header>ui.components.projectEntry_Manage</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

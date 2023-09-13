@@ -9,7 +9,6 @@ from functools import cached_property
 from pathlib import Path
 from typing import Any
 from hashlib import md5
-from io import BytesIO
 
 import cv2
 
@@ -111,15 +110,18 @@ class Project:
         samples = self.samples
         return [p for p in samples if p.stem.startswith(f"{tag}^")]
 
-    def extractYield(self):
+    def getModule(self, moduleName: str):
         cwdPath = Path(os.getcwd())
         importParts = [
             *self.path.resolve().relative_to(cwdPath.resolve()).parts,
-            "extract",
+            moduleName,
         ]
         importName = ".".join(importParts)
-        projectExtractModule = importlib.import_module(importName)
-        getSamples = projectExtractModule.getSamples
+        return importlib.import_module(importName)
+
+    def extractYield(self):
+        extractModule = self.getModule("extract")
+        getSamples = extractModule.getSamples
         assert callable(getSamples)
 
         extractLogger = logging.getLogger(
@@ -166,6 +168,29 @@ class Project:
 
     def extract(self):
         list(self.extractYield())
+
+    def redactYield(self):
+        redactModule = self.getModule("redact")
+        redactSource = redactModule.redactSource
+        assert callable(redactSource)
+
+        redactLogger = logging.getLogger(
+            f"redact-{self.name}-{int(time.time() * 1000)}"
+        )
+
+        sources = self.sources
+        sourcesNum = len(sources)
+        for i, source in enumerate(sources):
+            try:
+                redactLogger.info(f"Redacting {source.resolve()}")
+                redactSource(source)
+            except Exception:
+                redactLogger.exception(f"Error redacting {source.resolve()}")
+            finally:
+                yield (source, i, sourcesNum)
+
+    def redact(self):
+        list(self.redactYield())
 
     def getSampleOriginalFileName(self, sample: Path):
         return self.tagsReExp.sub("", sample.name)

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import CHAR, TEXT, TIMESTAMP, text, event, DDL
+from sqlalchemy import CHAR, DDL, TEXT, TIMESTAMP, event, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -30,7 +30,7 @@ class ClassifiedSample(ProjectBase):
     )
     tag: Mapped[str] = mapped_column(TEXT(), primary_key=True)
     timestamp: Mapped[datetime] = mapped_column(
-        TIMESTAMP(), server_default=text("CURRENT_TIMESTAMP")
+        TIMESTAMP(timezone=True), server_default=text("CURRENT_TIMESTAMP")
     )
 
 

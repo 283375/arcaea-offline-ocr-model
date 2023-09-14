@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QListWidget, QListWidgetItem,
-    QSizePolicy, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QSizePolicy, QTabWidget, QVBoxLayout,
+    QWidget)
 
+from ui.components.projectEntry_Classify import ProjectEntry_Classify
 from ui.components.projectEntry_Manage import ProjectEntry_Manage
-from ui.components.samplesListWidget import SamplesListWidget
 
 class Ui_ProjectEntry(object):
     def setupUi(self, ProjectEntry):
@@ -33,36 +33,12 @@ class Ui_ProjectEntry(object):
         self.tabManage = ProjectEntry_Manage()
         self.tabManage.setObjectName(u"tabManage")
         self.tabWidget.addTab(self.tabManage, "")
-        self.tabClassify = QWidget()
+        self.tabClassify = ProjectEntry_Classify()
         self.tabClassify.setObjectName(u"tabClassify")
-        self.horizontalLayout = QHBoxLayout(self.tabClassify)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.unclassifiedListWidget = SamplesListWidget(self.tabClassify)
-        self.unclassifiedListWidget.setObjectName(u"unclassifiedListWidget")
-
-        self.horizontalLayout.addWidget(self.unclassifiedListWidget)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.tagsListWidget = QListWidget(self.tabClassify)
-        self.tagsListWidget.setObjectName(u"tagsListWidget")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tagsListWidget.sizePolicy().hasHeightForWidth())
-        self.tagsListWidget.setSizePolicy(sizePolicy)
-
-        self.verticalLayout_2.addWidget(self.tagsListWidget)
-
-        self.classfiedListWidget = SamplesListWidget(self.tabClassify)
-        self.classfiedListWidget.setObjectName(u"classfiedListWidget")
-
-        self.verticalLayout_2.addWidget(self.classfiedListWidget)
-
-
-        self.horizontalLayout.addLayout(self.verticalLayout_2)
-
         self.tabWidget.addTab(self.tabClassify, "")
+        self.tabSamples = QWidget()
+        self.tabSamples.setObjectName(u"tabSamples")
+        self.tabWidget.addTab(self.tabSamples, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -79,5 +55,6 @@ class Ui_ProjectEntry(object):
         ProjectEntry.setWindowTitle(QCoreApplication.translate("ProjectEntry", u"projectEntry", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabManage), QCoreApplication.translate("ProjectEntry", u"Manage", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabClassify), QCoreApplication.translate("ProjectEntry", u"Classify", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSamples), QCoreApplication.translate("ProjectEntry", u"Samples", None))
     # retranslateUi
 

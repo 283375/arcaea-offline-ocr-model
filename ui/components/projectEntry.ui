@@ -24,32 +24,15 @@
        <string>Manage</string>
       </attribute>
      </widget>
-     <widget class="QWidget" name="tabClassify">
+     <widget class="ProjectEntry_Classify" name="tabClassify">
       <attribute name="title">
        <string>Classify</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="SamplesListWidget" name="unclassifiedListWidget"/>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QListWidget" name="tagsListWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="SamplesListWidget" name="classfiedListWidget"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
+     </widget>
+     <widget class="QWidget" name="tabSamples">
+      <attribute name="title">
+       <string>Samples</string>
+      </attribute>
      </widget>
     </widget>
    </item>
@@ -57,14 +40,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SamplesListWidget</class>
-   <extends>QListWidget</extends>
-   <header>ui.components.samplesListWidget</header>
-  </customwidget>
-  <customwidget>
    <class>ProjectEntry_Manage</class>
    <extends>QWidget</extends>
    <header>ui.components.projectEntry_Manage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProjectEntry_Classify</class>
+   <extends>QWidget</extends>
+   <header>ui.components.projectEntry_Classify</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

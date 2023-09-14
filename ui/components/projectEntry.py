@@ -16,6 +16,7 @@ class ProjectEntry(Ui_ProjectEntry, QWidget):
     def setProject(self, project: Project):
         self.project = project
         self.tabManage.setProject(project)
+        self.tabClassify.setProject(project)
 
     def reloadProject(self):
         self.project.reload()

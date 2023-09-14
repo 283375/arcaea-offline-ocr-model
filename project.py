@@ -102,27 +102,28 @@ class Project:
     @property
     def samplesClassified(self):
         with self.__sessionmaker() as session:
-            return [
+            samplesClassifiedMd5s = [
                 cs.sampleNumpyMd5 for cs in session.scalars(select(ClassifiedSample))
             ]
+        return [p for p in self.samples if p.stem in samplesClassifiedMd5s]
 
     @property
     def samplesIgnored(self):
         with self.__sessionmaker() as session:
-            return [
+            samplesIgnoredMd5s = [
                 cs.sampleNumpyMd5
                 for cs in session.scalars(
                     select(ClassifiedSample).where(ClassifiedSample.tag == "ignored")
                 )
             ]
+        return [p for p in self.samples if p.stem in samplesIgnoredMd5s]
 
     @property
     def samplesUnclassified(self):
-        samplesNumpyMd5s = [s.stem for s in self.samples]
-        classifiedSamples = []
-        classifiedSamples += self.samplesClassified
-        classifiedSamples += self.samplesIgnored
-        return [s for s in samplesNumpyMd5s if s not in classifiedSamples]
+        classifiedList = []
+        classifiedList += self.samplesClassified
+        classifiedList += self.samplesIgnored
+        return list(filter(lambda p: p not in classifiedList, self.samples))
 
     def samplesByTag(self, tag: str):
         if tag != "ignored" and tag not in self.tags:

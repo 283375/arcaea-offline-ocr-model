@@ -1,4 +1,6 @@
-from sqlalchemy import CHAR, TEXT
+from datetime import datetime
+
+from sqlalchemy import CHAR, TEXT, TIMESTAMP, text, event, DDL
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -27,3 +29,23 @@ class ClassifiedSample(ProjectBase):
         "sample_numpy_md5", CHAR(32), primary_key=True, unique=True
     )
     tag: Mapped[str] = mapped_column(TEXT(), primary_key=True)
+    timestamp: Mapped[datetime] = mapped_column(
+        TIMESTAMP(), server_default=text("CURRENT_TIMESTAMP")
+    )
+
+
+event.listen(
+    ClassifiedSample.__table__,
+    "after_create",
+    DDL(
+        """
+        CREATE TRIGGER IF NOT EXISTS update_classified_samples_timestamp
+            UPDATE OF sample_numpy_md5, tag
+            ON classified_samples
+        BEGIN
+            UPDATE classified_samples
+            SET timestamp = CURRENT_TIMESTAMP
+            WHERE sample_numpy_md5 = old.sample_numpy_md5;
+        END;"""
+    ),
+)

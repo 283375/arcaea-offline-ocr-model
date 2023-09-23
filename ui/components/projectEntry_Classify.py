@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QLabel, QWidget
 
 from project import Project
 
+from .blockLabelDialog import BlockLabelDialog
 from .projectEntry_Classify_ui import Ui_ProjectEntry_Classify
 
 
@@ -89,4 +90,8 @@ class ProjectEntry_Classify(Ui_ProjectEntry_Classify, QWidget):
 
     @Slot()
     def on_loadSamplesButton_clicked(self):
-        self.samplesListWidget.setSamples(self.project.samplesUnclassified)
+        with BlockLabelDialog(self) as block:
+            block.setText(f"{self.project.name}<br>Loading unclassified samples")
+            block.show()
+
+            self.samplesListWidget.setSamples(self.project.samplesUnclassified)

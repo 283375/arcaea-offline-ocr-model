@@ -1,8 +1,9 @@
 from PySide6.QtCore import Qt, Signal, Slot
-from PySide6.QtWidgets import QApplication, QLabel, QWidget
+from PySide6.QtWidgets import QApplication, QWidget
 
 from project import Project
 
+from .blockLabelDialog import BlockLabelDialog
 from .projectEntry_Manage_ui import Ui_ProjectEntry_Manage
 from .yieldProgress import YieldProgress
 
@@ -26,31 +27,24 @@ class ProjectEntry_Manage(Ui_ProjectEntry_Manage, QWidget):
             self.projectDescriptionLabel.setText("-")
             return
 
-        blockLabel = QLabel(self)
-        blockLabel.setWindowModality(Qt.WindowModality.ApplicationModal)
-        blockLabel.setWindowFlag(Qt.WindowType.Dialog, True)
-        blockLabel.setWindowFlag(Qt.WindowType.WindowMinimizeButtonHint, False)
-        blockLabel.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, False)
-        blockLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        blockLabel.setText(f"Loading project<br>{self.project.name}")
-        blockLabel.setMargin(20)
-        blockLabel.show()
-        QApplication.processEvents()
-        self.projectNameLabel.setText(self.project.name)
-        self.projectDescriptionLabel.setText(
-            "<br>".join(
-                [
-                    str(self.project.path.resolve()),
-                    f"{len(self.project.sources)} sources",
-                    f"{len(self.project.samples)} samples",
-                    f"- {len(self.project.samplesClassified)} classified",
-                    f"- {len(self.project.samplesIgnored)} ignored",
-                    f"- {len(self.project.samplesUnclassified)} unclassified",
-                ]
+        with BlockLabelDialog(self) as block:
+            block.setText(f"{self.project.name}<br>Updating status")
+            block.show()
+
+            QApplication.processEvents()
+            self.projectNameLabel.setText(self.project.name)
+            self.projectDescriptionLabel.setText(
+                "<br>".join(
+                    [
+                        str(self.project.path.resolve()),
+                        f"{len(self.project.sources)} sources",
+                        f"{len(self.project.samples)} samples",
+                        f"- {len(self.project.samplesClassified)} classified",
+                        f"- {len(self.project.samplesIgnored)} ignored",
+                        f"- {len(self.project.samplesUnclassified)} unclassified",
+                    ]
+                )
             )
-        )
-        blockLabel.close()
-        blockLabel.deleteLater()
 
     @Slot()
     def on_updateButton_clicked(self):

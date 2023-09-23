@@ -3,7 +3,13 @@ from pathlib import Path
 
 from PySide6.QtCore import QByteArray, QMimeData, Qt
 from PySide6.QtGui import QDrag, QPixmap
-from PySide6.QtWidgets import QListWidget, QListWidgetItem, QMessageBox, QProgressDialog
+from PySide6.QtWidgets import (
+    QApplication,
+    QListWidget,
+    QListWidgetItem,
+    QMessageBox,
+    QProgressDialog,
+)
 
 
 class SamplesListWidget(QListWidget):
@@ -19,12 +25,19 @@ class SamplesListWidget(QListWidget):
         self.setDragEnabled(True)
         self.setSelectionMode(QListWidget.SelectionMode.MultiSelection)
 
-    def setSamples(self, samples: list[Path]):
+    def setSamples(self, samples: list[Path], *, cancellable: bool = True):
         self.clear()
 
         samplesNum = len(samples)
         progressDialog = QProgressDialog("", "Abort", 0, samplesNum, self)
+        progressDialog.setWindowFlag(Qt.WindowType.WindowMinimizeButtonHint, False)
+        progressDialog.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, False)
+        progressDialog.setWindowFlag(Qt.WindowType.WindowCloseButtonHint, False)
         progressDialog.setWindowModality(Qt.WindowModality.ApplicationModal)
+        if not cancellable:
+            progressDialog.setCancelButton(None)
+        progressDialog.show()
+        QApplication.processEvents()
 
         for i, sample in enumerate(samples):
             item = QListWidgetItem(QPixmap(str(sample)), f"{sample.stem[:3]}...", self)
@@ -45,9 +58,10 @@ class SamplesListWidget(QListWidget):
                 break
 
         progressDialog.setValue(samplesNum)
-        QMessageBox.information(
-            self, None, f"Loaded {self.model().rowCount()} samples."
-        )
+        if i + 1 != samplesNum:
+            QMessageBox.information(
+                self, None, f"Loaded {self.model().rowCount()} samples."
+            )
 
     def startDrag(self, supportedActions: Qt.DropAction):
         drag = QDrag(self)

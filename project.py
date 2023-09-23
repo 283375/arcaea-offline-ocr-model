@@ -103,7 +103,10 @@ class Project:
     def samplesClassified(self):
         with self.__sessionmaker() as session:
             samplesClassifiedMd5s = [
-                cs.sampleNumpyMd5 for cs in session.scalars(select(ClassifiedSample))
+                cs.sampleNumpyMd5
+                for cs in session.scalars(
+                    select(ClassifiedSample).where(ClassifiedSample.tag != "ignored")
+                )
             ]
         return [p for p in self.samples if p.stem in samplesClassifiedMd5s]
 

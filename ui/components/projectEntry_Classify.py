@@ -79,7 +79,7 @@ class ProjectEntry_Classify(Ui_ProjectEntry_Classify, QWidget):
             self.frame.layout().removeWidget(tagLabel)
             tagLabel.deleteLater()
 
-        for tag in self.project.tags:
+        for tag in self.project.tags + ["ignored"]:
             tagLabel = TagLabel(self)
             tagLabel.tag = tag
             tagLabel.project = project

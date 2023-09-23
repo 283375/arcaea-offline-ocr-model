@@ -30,8 +30,16 @@ class SamplesListWidget(QListWidget):
             item = QListWidgetItem(QPixmap(str(sample)), f"{sample.stem[:3]}...", self)
             item.setData(self.PathlibPathRole, sample)
             self.addItem(item)
-            progressDialog.setValue(i)
-            progressDialog.setLabelText(f"{i + 1}/{samplesNum}")
+
+            if samplesNum >= 1000:
+                updateInterval = 100
+            elif samplesNum >= 100:
+                updateInterval = 10
+            else:
+                updateInterval = 1
+            if i % updateInterval == 0:
+                progressDialog.setValue(i)
+                progressDialog.setLabelText(f"{i + 1}/{samplesNum}")
 
             if progressDialog.wasCanceled():
                 break

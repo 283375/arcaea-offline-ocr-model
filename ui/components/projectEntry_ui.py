@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QSizePolicy, QTabWidget, QVBoxLayou
 
 from ui.components.projectEntry_Classify import ProjectEntry_Classify
 from ui.components.projectEntry_Manage import ProjectEntry_Manage
+from ui.components.projectEntry_Samples import ProjectEntry_Samples
 
 class Ui_ProjectEntry(object):
     def setupUi(self, ProjectEntry):
@@ -36,7 +37,7 @@ class Ui_ProjectEntry(object):
         self.tabClassify = ProjectEntry_Classify()
         self.tabClassify.setObjectName(u"tabClassify")
         self.tabWidget.addTab(self.tabClassify, "")
-        self.tabSamples = QWidget()
+        self.tabSamples = ProjectEntry_Samples()
         self.tabSamples.setObjectName(u"tabSamples")
         self.tabWidget.addTab(self.tabSamples, "")
 

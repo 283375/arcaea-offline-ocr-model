@@ -29,7 +29,7 @@
        <string>Classify</string>
       </attribute>
      </widget>
-     <widget class="QWidget" name="tabSamples">
+     <widget class="ProjectEntry_Samples" name="tabSamples">
       <attribute name="title">
        <string>Samples</string>
       </attribute>
@@ -49,6 +49,12 @@
    <class>ProjectEntry_Classify</class>
    <extends>QWidget</extends>
    <header>ui.components.projectEntry_Classify</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProjectEntry_Samples</class>
+   <extends>QWidget</extends>
+   <header>ui.components.projectEntry_Samples</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

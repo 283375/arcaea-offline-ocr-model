@@ -220,7 +220,7 @@ class Project:
         list(self.redactSourcesYield())
 
     def classify(self, sample: Path, tag: str):
-        if tag not in self.tags:
+        if tag != "ignored" and tag not in self.tags:
             raise ValueError(f'Unknown tag "{tag}"')
 
         with self.__sessionmaker() as session:

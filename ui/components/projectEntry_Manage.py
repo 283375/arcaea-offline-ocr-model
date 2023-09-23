@@ -37,6 +37,10 @@ class ProjectEntry_Manage(Ui_ProjectEntry_Manage, QWidget):
             )
         )
 
+    @Slot()
+    def on_updateButton_clicked(self):
+        self.updateLabels()
+
     def setAbort(self, b: bool):
         self.abort = b
 

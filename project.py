@@ -223,6 +223,22 @@ class Project:
     def redactSources(self):
         list(self.redactSourcesYield())
 
+    def train(self):
+        trainModule = self.getModule("train")
+        trainClass = trainModule.Train
+
+        trainItems = [
+            {"tag": tag, "value": int(value), "samples": self.samplesByTag(tag)}
+            for tag, value in self.tagValueMap.items()
+        ]
+
+        trainClassInstance = trainClass(trainItems)
+
+        knnModel = trainClassInstance.train_knn()
+        knnModel.save(str((self.path / "knn.dat").resolve()))
+        svmModel = trainClassInstance.train_svm()
+        svmModel.save(str((self.path / "svm.dat").resolve()))
+
     def classify(self, sample: Path, tag: str):
         if tag != "ignored" and tag not in self.tags:
             raise ValueError(f'Unknown tag "{tag}"')

@@ -119,3 +119,14 @@ class ProjectEntry_Manage(Ui_ProjectEntry_Manage, QWidget):
         self.abort = False
         progressDialog.close()
         progressDialog.deleteLater()
+
+    @Slot()
+    def on_trainButton_clicked(self):
+        if not self.project:
+            return
+
+        with BlockLabelDialog(self) as block:
+            block.setText(f"{self.project.name}<br>Training")
+            block.show()
+
+            self.project.train()
